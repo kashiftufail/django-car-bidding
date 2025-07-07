@@ -33,22 +33,20 @@ class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     template_name = "posts/post_form.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
-        response = super().form_valid(form)
-        for file in form.cleaned_data.get("images", []):
-            image = Image.objects.create(file=file, uploaded_by=self.request.user)
-            self.object.images.add(image)
+        print("Form is valid, saving post...")
         messages.success(self.request, "Post created successfully!")
-        return response    
-    
+        return super().form_valid(form) 
+
     def form_invalid(self, form):
-        # print("FILES:", self.request.FILES)
-        # print("POST:", self.request.POST)
-        print(form.errors.as_data())
-        # ppppppppppp
-        for field, errors in form.errors.items():
-            for error in errors:
-                messages.error(self.request, f"{field.capitalize()}: {error}")
+        print("Form is innnnnnn valid, saving post...")
+
+        messages.error(self.request, "There was an error creating the post.")
         return super().form_invalid(form)
 
 class PostUpdate(LoginRequiredMixin, UpdateView):

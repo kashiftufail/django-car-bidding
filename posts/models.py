@@ -6,6 +6,7 @@ from django.core.validators import MinLengthValidator
 from django.urls import reverse
 from images.models import Image
 
+
 def validate_title_length(value):
     if len(value) > 200:
         raise ValidationError("Title cannot exceed 200 characters.")
@@ -25,7 +26,7 @@ class Post(models.Model):
     )
     body = models.TextField()
     slug = AutoSlugField(populate_from="title", unique=True)
-    images = models.ManyToManyField(Image, blank=True, related_name="posts")
+    
 
 
     def get_absolute_url(self):
