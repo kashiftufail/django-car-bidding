@@ -1,45 +1,39 @@
-# posts/forms.py
 from django import forms
-from .models import Post, Image
-
-class MultipleFileInput(forms.ClearableFileInput):   # ← 1-line subclass
-    allow_multiple_selected = True                  # enable “multiple”
+from .models import Post
+from images.models import Image
+from .fields import MultiFileField
+from .widgets import MultiFileInput
 
 class PostForm(forms.ModelForm):
-    # images = forms.FileField(
-    #     required=False,
-    #     widget=MultipleFileInput(attrs={"multiple": True}),
-    #     help_text="Upload images (max 2 MB each)",
-    # )
-
-    # pic = forms.FileField(widget = forms.TextInput(attrs={
-    #     "name": "images",
-    #     "type": "File",
-    #     "class": "form-control",
-    #     "multiple": "True",
-    # }), label = "")
-
-    pic = forms.FileField(widget = forms.TextInput(attrs={
-            "name": "images",
-            "type": "File",
-            "class": "form-control",
-            "multiple": "True",
-            "required": "False",
-        }), label = "")
-    # class Meta:
-    #     model = Image
-    #     fields = ['pic']
+    uploaded_images = MultiFileField(
+        widget=MultiFileInput(attrs={"multiple": True}),
+        required=False,
+        label="Upload image(s)",
+        help_text="JPEG/PNG • ≤ 2 MB each",
+    )
 
     class Meta:
         model  = Post
-        fields = ["title", "body", 'pic' ]
+        fields = ["title", "body", "uploaded_images"]
 
-    # size + type validation
-    def clean_images(self):
-        files = self.files.getlist("images")
+    # capture current user once
+    def __init__(self, *args, user=None, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    # per‑file validation
+    def clean_uploaded_images(self):
+        files = self.cleaned_data["uploaded_images"]  # list from MultiFileField
         for f in files:
             if not f.content_type.startswith("image/"):
                 raise forms.ValidationError(f"{f.name} isn’t an image.")
             if f.size > 2 * 1024 * 1024:
-                raise forms.ValidationError(f"{f.name} exceeds 2 MB.")
+                raise forms.ValidationError(f"{f.name} exceeds 2 MB.")
         return files
+
+    # save post then its images
+    def save(self, commit=True):
+        post = super().save(commit=commit)
+        for f in self.cleaned_data["uploaded_images"]:
+            Image.objects.create(file=f, uploaded_by=self.user, post=post)
+        return post
