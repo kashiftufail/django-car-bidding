@@ -1,0 +1,54 @@
+{% load static tailwind_tags %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}MyBlog{% endblock %}</title>
+  {% tailwind_css %}
+  <!-- Tailwind via CDN (fine for demos) -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  {% include "partials/_header.html" %}
+
+  {% if messages %}
+        <div class="space-y-4 mb-6">
+            {% for message in messages %}
+            <div
+                class="p-4 rounded text-white text-sm
+                    {% if message.tags == 'error' %} bg-red-600
+                    {% elif message.tags == 'success' %} bg-green-600
+                    {% elif message.tags == 'warning' %} bg-yellow-500
+                    {% else %} bg-blue-600 {% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+   {% endif %}
+
+
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-12 gap-6">
+      <!-- left sidebar -->
+      <aside class="col-span-12 md:col-span-2">
+        {% include "partials/_sidebar_left.html" %}
+      </aside>
+
+      <!-- page body -->
+      <section class="col-span-12 md:col-span-8">
+        {% block content %}{% endblock %}
+      </section>
+
+      <!-- right sidebar -->
+      <aside class="col-span-12 md:col-span-2">
+        {% include "partials/_sidebar_right.html" %}
+      </aside>
+    </div>
+  </main>
+
+  {% include "partials/_footer.html" %}
+</body>
+</html>

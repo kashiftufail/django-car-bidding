@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{% if view.object %}Edit{% else %}New{% endif %} Post – MyBlog{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">
+  {% if view.object %}Edit Post{% else %}New Post{% endif %}
+</h1>
+{% include "posts/_form.html" %}
+{% endblock %}

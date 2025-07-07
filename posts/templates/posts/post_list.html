@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Posts – MyBlog{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Posts</h1>
+
+{% if posts %}
+  <ul class="space-y-4">
+    {% for post in posts %}
+      <li class="bg-white p-4 rounded shadow flex justify-between">
+        <a href="{% url 'post_detail' post.slug %}"
+           class="text-lg font-medium text-indigo-700 hover:underline">
+          {{ post.title }}
+        </a>
+        <span class="space-x-2 text-sm">
+          <a href="{% url 'post_update' post.slug %}" class="text-gray-600 hover:underline">Edit</a>
+          <a href="{% url 'post_delete' post.slug %}" class="text-red-600 hover:underline">Delete</a>
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No posts yet. <a href="{% url 'post_create_now' %}" class="underline">Create one</a>.</p>
+{% endif %}
+{% endblock %}

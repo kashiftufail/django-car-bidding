@@ -1,0 +1,26 @@
+from django import forms
+from .models import UserProfile
+from images.models import Image
+
+class ProfileForm(forms.ModelForm):
+    avatar_file = forms.ImageField(
+        required=False,
+        label="Upload New Avatar"
+    )
+
+    class Meta:
+        model = UserProfile
+        fields = ['phone', 'info', 'city', 'state', 'zip']
+
+    def save(self, commit=True, user=None):
+        profile = super().save(commit=False)
+        if self.cleaned_data.get("avatar_file"):
+            uploaded_image = Image.objects.create(
+                file=self.cleaned_data["avatar_file"],
+                uploaded_by=profile.user
+            )
+            profile.avatar = uploaded_image
+
+        if commit:
+            profile.save()
+        return profile

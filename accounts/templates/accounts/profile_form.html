@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-xl mx-auto my-10 p-6 bg-white rounded-lg shadow">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h2>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+
+
+    {# profile_form.html #}
+<div>
+  <label for="{{ form.avatar_file.id_for_label }}" class="block text-sm font-medium text-gray-700">
+    Profile Picture
+  </label>
+
+  {% if user.profile.avatar %}
+    <img src="{{ user.profile.avatar.file.url }}"
+         class="w-24 h-24 rounded-full my-2 object-cover border"
+         alt="Current Avatar">
+  {% endif %}
+
+  {{ form.avatar_file }}
+
+  {% for error in form.avatar_file.errors %}
+    <p class="text-sm text-red-500">{{ error }}</p>
+  {% endfor %}
+</div>
+
+
+
+
+    {# ---- Phone Field ---- #}
+    <div>
+      <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        Phone Number
+      </label>
+      {{ form.phone }}
+      {% for error in form.phone.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {# ---- Info Field ---- #}
+    <div>
+      <label for="{{ form.info.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        About You
+      </label>
+      {{ form.info }}
+      {% for error in form.info.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {# ---- City Field ---- #}
+    <div>
+      <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        City
+      </label>
+      {{ form.city }}
+      {% for error in form.city.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {# ---- State Field ---- #}
+    <div>
+      <label for="{{ form.state.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        State
+      </label>
+      {{ form.state }}
+      {% for error in form.state.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {# ---- Zip Code Field ---- #}
+    <div>
+      <label for="{{ form.zip.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        ZIP Code
+      </label>
+      {{ form.zip }}
+      {% for error in form.zip.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {# ---- Submit Button ---- #}
+    <button type="submit" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+      Save Changes
+    </button>
+  </form>
+</div>
+{% endblock %}

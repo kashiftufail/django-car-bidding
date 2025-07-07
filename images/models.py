@@ -1,0 +1,18 @@
+from django.db import models
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def image_upload_path(instance, filename):
+    """Uploads to media/<user_id>/<filename>."""
+    return f"uploads/{instance.uploaded_by_id}/{filename}"
+
+class Image(models.Model):
+    file        = models.ImageField(upload_to=image_upload_path)
+    alt_text    = models.CharField(max_length=255, blank=True)
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="uploaded_images")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.alt_text or f"Image {self.pk}"
