@@ -1,4 +1,6 @@
 from django.db import models
+# from posts.models import Post
+from django.apps import apps
 
 from django.contrib.auth import get_user_model
 
@@ -13,6 +15,13 @@ class Image(models.Model):
     alt_text    = models.CharField(max_length=255, blank=True)
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="uploaded_images")
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    post = models.ForeignKey( "posts.Post",
+        on_delete=models.CASCADE,
+        related_name="images",
+        null=True,  # Allow null initially to support existing data
+        blank=True
+    )
 
     def __str__(self):
         return self.alt_text or f"Image {self.pk}"
