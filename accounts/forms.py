@@ -1,6 +1,9 @@
 from django import forms
 from .models import UserProfile
 from images.models import Image
+from allauth.account.forms import SignupForm
+from roles.models import Role
+from accounts.thread_locals import set_signup_role
 
 class ProfileForm(forms.ModelForm):
     avatar_file = forms.ImageField(
@@ -24,3 +27,19 @@ class ProfileForm(forms.ModelForm):
         if commit:
             profile.save()
         return profile
+    
+
+# from django import forms
+
+class CustomSignupForm(SignupForm):
+    role = forms.ModelChoiceField(
+        queryset=Role.objects.all(),
+        widget=forms.RadioSelect,
+        empty_label=None,
+        label="Register as"
+    )
+
+    def save(self, request):
+        selected_role = self.cleaned_data['role']
+        set_signup_role(selected_role)
+        return super().save(request)    
