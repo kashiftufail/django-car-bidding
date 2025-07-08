@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",
+    'widget_tweaks',
     # "debug_toolbar",
     # Allauth apps
     'allauth',
@@ -75,6 +76,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'  # Use 'mandatory' for production
 ACCOUNT_SESSION_REMEMBER = True
+
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
