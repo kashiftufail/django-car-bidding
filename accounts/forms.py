@@ -10,7 +10,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['phone', 'info', 'city', 'state', 'zip']
+        fields = ['phone', 'info', 'city', 'state', 'zip', 'role']
 
     def save(self, commit=True, user=None):
         profile = super().save(commit=False)

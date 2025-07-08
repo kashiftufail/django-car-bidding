@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from images.models import Image
+from roles.models import Role
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -16,14 +17,10 @@ def avatar_upload_path(instance, filename):
 
 
 class UserProfile(models.Model):
-    # user   = models.OneToOneField(
-    #     settings.AUTH_USER_MODEL,
-    #     on_delete=models.CASCADE,
-    #     related_name="profile",
-    # )
 
-    # avatar = models.ImageField(upload_to=avatar_upload_path, blank=True, null=True)
     user   = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
+
     city   = models.CharField(max_length=120, blank=True)
     state  = models.CharField(max_length=120, blank=True)
     zip    = models.CharField(max_length=20, blank=True)

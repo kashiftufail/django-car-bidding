@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "posts",
     "images",
     'accounts',
+    'roles',
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",
