@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts',
     'roles',
     'cars',
+    "make",
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",
