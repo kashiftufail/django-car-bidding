@@ -27,7 +27,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 TAILWIND_APP_NAME = 'theme'
 
+STATIC_URL = "/static/"
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # ✅ this must include your global static folder
+]
 # Application definition
 
 INSTALLED_APPS = [
