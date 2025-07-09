@@ -27,8 +27,7 @@ class CarCreateView(LoginRequiredMixin, CreateView):
         return response
 
     def form_invalid(self, form):
-        breakpoint()  # For debugging purposes
-        messages.error(self.request, "There was an error submitting the form.")
+        messages.error(self.request, form.errors)
         return super().form_invalid(form)
 
     def get_form_kwargs(self):
