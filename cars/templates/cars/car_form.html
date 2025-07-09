@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Add Car{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Add a Car</h1>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <!-- Title -->
+    <div>
+      <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.title.label }}
+      </label>
+      {{ form.title|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" }}
+      {% if form.title.errors %}
+        <p class="text-sm text-red-600">{{ form.title.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Detail -->
+    <div>
+      <label for="{{ form.detail.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.detail.label }}
+      </label>
+      {{ form.detail|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" }}
+      {% if form.detail.errors %}
+        <p class="text-sm text-red-600">{{ form.detail.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Upload Images -->
+    <div>
+      <label for="id_uploaded_images" class="block text-sm font-medium text-gray-700">
+        {{ form.uploaded_images.label }}
+      </label>
+      {{ form.uploaded_images }}
+      {% if form.uploaded_images.errors %}
+        <p class="text-sm text-red-600">{{ form.uploaded_images.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Submit -->
+    <div>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
