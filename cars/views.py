@@ -4,6 +4,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from .models import Car
 from .forms import CarForm
+from django.contrib import messages
+
+
 
 class CarListView(ListView):
     model = Car
@@ -19,11 +22,18 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.seller = self.request.user.profile
-        return super().form_valid(form)
-    
+        response = super().form_valid(form)
+        messages.success(self.request, "Car added successfully!")
+        return response
+
+    def form_invalid(self, form):
+        breakpoint()  # For debugging purposes
+        messages.error(self.request, "There was an error submitting the form.")
+        return super().form_invalid(form)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user  # ✅ this is required!
+        kwargs["user"] = self.request.user
         return kwargs
 
 class CarDetailView(DetailView):  # public
