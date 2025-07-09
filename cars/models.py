@@ -28,6 +28,7 @@ class Car(models.Model):
     detail = models.TextField()
     slug = AutoSlugField(populate_from="title", unique=True)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="cars")
+    variant = models.ForeignKey("variant.Variant", on_delete=models.CASCADE, related_name="cars")
 
     def get_absolute_url(self):
         return reverse("cars:car_detail", kwargs={"slug": self.slug})

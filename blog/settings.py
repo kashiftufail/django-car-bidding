@@ -34,6 +34,9 @@ STATICFILES_DIRS = [
 ]
 # Application definition
 
+
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
     'roles',
     'cars',
     "make",
+    'variant',
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",

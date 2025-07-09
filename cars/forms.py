@@ -4,6 +4,8 @@ from .models import Car
 from images.models import Image
 from posts.fields import MultiFileField
 from posts.widgets import MultiFileInput
+from variant.models import Variant
+from make.models import Make
 
 class CarForm(forms.ModelForm):
     uploaded_images = MultiFileField(
@@ -13,13 +15,37 @@ class CarForm(forms.ModelForm):
         help_text="JPEG/PNG • ≤ 2 MB each",
     )
 
+    make = forms.ModelChoiceField(
+        queryset=Make.objects.all(),
+        required=True,
+        label="Make"
+    )
+
+    variant = forms.ModelChoiceField(
+        queryset=Variant.objects.none(),  # initially empty, filled by JS
+        required=True,
+        label="Variant"
+    )
+
+
     class Meta:
         model = Car
-        fields = ["title", "detail", "uploaded_images"]
+        fields = ["make", "variant", "title", "detail", "uploaded_images"]
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields["variant"].queryset = Variant.objects.filter(make=self.instance.variant.make)
+        elif 'make' in self.data:
+            try:
+                make_id = int(self.data.get('make'))
+                self.fields['variant'].queryset = Variant.objects.filter(make_id=make_id)
+            except (ValueError, TypeError):
+                self.fields['variant'].queryset = Variant.objects.none()
+        else:
+            self.fields['variant'].queryset = Variant.objects.none()    
 
     def clean_uploaded_images(self):
         files = self.cleaned_data["uploaded_images"]
@@ -31,7 +57,9 @@ class CarForm(forms.ModelForm):
         return files
 
     def save(self, commit=True):
+        breakpoint()
         car = super().save(commit=False)
+        
         if self.user:
             car.seller = self.user.profile
         if commit:

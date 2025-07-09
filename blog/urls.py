@@ -29,6 +29,8 @@ urlpatterns = [
     path("", PostList.as_view(), name="home"),
     path('accounts/', include('allauth.urls')),  # <-- Allauth
     path("accounts/", include("accounts.urls")),
+    path("variants/", include("variant.urls")),
+
 
 ]
 
