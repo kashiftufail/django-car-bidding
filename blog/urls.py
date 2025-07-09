@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path("posts/", include("posts.urls")),
+    path("cars/", include("cars.urls")),
     path("", PostList.as_view(), name="home"),
     path('accounts/', include('allauth.urls')),  # <-- Allauth
     path("accounts/", include("accounts.urls")),

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-12 gap-6">
+
+  <!-- Main Section -->
+  <div class="md:col-span-9">
+    <!-- Gallery -->
+    <div class="mb-6">
+      {% if car.images.all %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {% for image in car.images.all %}
+            <img src="{{ image.file.url }}" alt="Image" class="rounded shadow-md object-cover w-full h-64">
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="h-64 bg-gray-200 flex items-center justify-center rounded text-gray-500">
+          No images available
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Car Title -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ car.title }}</h1>
+
+    <!-- Seller Info -->
+    <p class="text-sm text-gray-500 mb-4">
+      Posted by <span class="font-semibold">{{ car.seller.user.username }}</span>
+    </p>
+
+    <!-- Description -->
+    <div class="prose max-w-none text-gray-700">
+      {{ car.detail|linebreaks }}
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="md:col-span-3">
+    <div class="bg-white p-4 shadow-md rounded">
+      <h2 class="text-lg font-semibold text-gray-800 mb-2">Quick Info</h2>
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Title:</strong> {{ car.title }}</li>
+        <li><strong>Seller:</strong> {{ car.seller.user.username }}</li>
+        <li><strong>Posted:</strong> {{ car.created_at|date:"M d, Y" }}</li>
+      </ul>
+
+      <!-- Action Buttons -->
+      {% if request.user.is_authenticated and request.user.userprofile == car.seller %}
+        <div class="mt-4 flex space-x-2">
+          <a href="{% url 'cars:car_update' slug=car.slug %}" class="px-4 py-2 bg-blue-600 text-white rounded text-sm">Edit</a>
+          <a href="{% url 'cars:car_delete' slug=car.slug %}" class="px-4 py-2 bg-red-600 text-white rounded text-sm">Delete</a>
+        </div>
+      {% endif %}
+    </div>
+  </aside>
+
+</div>
+{% endblock %}

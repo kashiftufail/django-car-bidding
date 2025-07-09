@@ -23,5 +23,11 @@ class Image(models.Model):
         blank=True
     )
 
+    car = models.ForeignKey('cars.Car', 
+        null=True, blank=True, 
+        on_delete=models.SET_NULL, 
+        related_name='images'
+    )
+
     def __str__(self):
         return self.alt_text or f"Image {self.pk}"

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "images",
     'accounts',
     'roles',
+    'cars',
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",
