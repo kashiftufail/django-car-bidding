@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-
 <div class="flex justify-between items-center mb-6">
   <h1 class="text-2xl font-bold text-gray-800">Cars</h1>
   {% if user.is_authenticated %}
@@ -31,13 +30,9 @@
       {% endif %}
 
       <div class="flex justify-end items-center p-4 border-t">
-        <!-- Heroicon: Heart (outline) -->
         <button class="hover:text-red-500 text-gray-400 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-               viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-               class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.045l-7.682-7.363a4.5 4.5 0 010-6.364z" />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.045l-7.682-7.363a4.5 4.5 0 010-6.364z" />
           </svg>
         </button>
       </div>
@@ -46,4 +41,28 @@
     <p class="text-center text-gray-600 col-span-3">No cars available.</p>
   {% endfor %}
 </div>
+
+{% if is_paginated %}
+  <nav class="mt-8 flex justify-center items-center space-x-1">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded">&laquo;</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 text-gray-400 rounded">&laquo;</span>
+    {% endif %}
+
+    {% for num in paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="px-3 py-1 bg-blue-600 text-white rounded">{{ num }}</span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded">&raquo;</a>
+    {% else %}
+      <span class="px-3 py-1 bg-gray-100 text-gray-400 rounded">&raquo;</span>
+    {% endif %}
+  </nav>
+{% endif %}
 {% endblock %}

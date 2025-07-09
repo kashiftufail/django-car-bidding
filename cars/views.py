@@ -12,7 +12,10 @@ class CarListView(ListView):
     model = Car
     template_name = 'cars/index.html'
     context_object_name = 'cars'
-    queryset = Car.objects.select_related('seller__user').prefetch_related('images')
+    paginate_by = 3
+    queryset = Car.objects.select_related('seller__user').prefetch_related('images').order_by('-id')
+
+
 
 class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
