@@ -1,13 +1,18 @@
 # cars/forms.py
 from django import forms
 from .models import Car
+import datetime
 from images.models import Image
 from posts.fields import MultiFileField
 from posts.widgets import MultiFileInput
 from variant.models import Variant
 from make.models import Make
 
+YEAR_CHOICES = [(year, year) for year in range(1970, datetime.datetime.now().year + 1)]
+
 class CarForm(forms.ModelForm):
+    manufacture_year = forms.ChoiceField(choices=YEAR_CHOICES, label="Manufacture Year")
+
     uploaded_images = MultiFileField(
         widget=MultiFileInput(attrs={"multiple": True}),
         required=False,
@@ -30,7 +35,8 @@ class CarForm(forms.ModelForm):
 
     class Meta:
         model = Car
-        fields = ["make", "variant", "title", "detail", "uploaded_images"]
+        fields = ["make", "variant", "title", "detail", "uploaded_images","manufacture_year", "odometer",
+                  "car_type", "fuel_type", "has_keys", "engine_starts"]
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user

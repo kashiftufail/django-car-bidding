@@ -34,6 +34,70 @@
         {{ form.variant|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
     </div>
 
+    <div>
+      <label for="{{ form.manufacture_year.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.manufacture_year.label }}
+      </label>
+      {{ form.manufacture_year|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.manufacture_year.errors %}
+        <p class="text-sm text-red-600">{{ form.manufacture_year.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Odometer -->
+    <div>
+      <label for="{{ form.odometer.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.odometer.label }}
+      </label>
+      {{ form.odometer|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.odometer.errors %}
+        <p class="text-sm text-red-600">{{ form.odometer.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Car Type -->
+    <div>
+      <label for="{{ form.car_type.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.car_type.label }}
+      </label>
+      {{ form.car_type|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.car_type.errors %}
+        <p class="text-sm text-red-600">{{ form.car_type.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Fuel Type -->
+    <div>
+      <label for="{{ form.fuel_type.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.fuel_type.label }}
+      </label>
+      {{ form.fuel_type|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.fuel_type.errors %}
+        <p class="text-sm text-red-600">{{ form.fuel_type.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Has Keys -->
+    <div>
+      <label for="{{ form.has_keys.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.has_keys.label }}
+      </label>
+      {{ form.has_keys|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.has_keys.errors %}
+        <p class="text-sm text-red-600">{{ form.has_keys.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Engine Starts -->
+    <div>
+      <label for="{{ form.engine_starts.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.engine_starts.label }}
+      </label>
+      {{ form.engine_starts|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.engine_starts.errors %}
+        <p class="text-sm text-red-600">{{ form.engine_starts.errors.0 }}</p>
+      {% endif %}
+    </div>
     <!-- Detail -->
     <div>
       <label for="{{ form.detail.id_for_label }}" class="block text-sm font-medium text-gray-700">
