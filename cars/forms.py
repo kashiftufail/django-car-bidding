@@ -36,7 +36,13 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = ["make", "variant", "title", "detail", "uploaded_images","manufacture_year", "odometer",
-                  "car_type", "fuel_type", "has_keys", "engine_starts", "color", "weight", "location"]
+                  "car_type", "fuel_type", "has_keys", "engine_starts", "color", "weight", "location", "auction_datetime"]
+        widgets = {
+                "auction_datetime": forms.DateTimeInput(attrs={
+                    "type": "datetime-local",
+                    "class": "mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                })
+            } 
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user

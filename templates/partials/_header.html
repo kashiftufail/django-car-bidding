@@ -1,10 +1,10 @@
 <header class="bg-white border-b shadow-sm">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <a href="{% url 'post_list' %}" class="text-xl font-bold text-indigo-600">MyBlog</a>
+    <a href="{% url 'cars:car_list' %}" class="text-xl font-bold text-indigo-600">BidCar</a>
     
     <nav class="space-x-4">
       {% if user.is_authenticated %}
-        <a href="{% url 'post_create_now' %}" class="text-indigo-600 hover:underline">New Post</a>
+        <a href="{% url 'cars:car_create' %}" class="text-indigo-600 hover:underline">New Car</a>
         welcome, {{ user.username }}!
         <a href="{% url 'account_logout' %}" class="text-red-500 hover:underline">Logout</a>
         
