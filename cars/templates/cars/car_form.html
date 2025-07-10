@@ -142,6 +142,17 @@
       {% endif %}
     </div>
 
+    <!-- Auction Date & Time -->
+    <div>
+      <label for="{{ form.auction_datetime.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.auction_datetime.label }}
+      </label>
+      {{ form.auction_datetime }}
+      {% if form.auction_datetime.errors %}
+        <p class="text-sm text-red-600">{{ form.auction_datetime.errors.0 }}</p>
+      {% endif %}
+    </div>
+
     <!-- Upload Images -->
     <div>
       <label for="id_uploaded_images" class="block text-sm font-medium text-gray-700">

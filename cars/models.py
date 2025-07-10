@@ -57,6 +57,7 @@ class Car(models.Model):
     fuel_type = models.CharField(max_length=10, choices=FUEL_TYPE_CHOICES, default='gas')
     has_keys = models.BooleanField(choices=YES_NO_CHOICES, default=True)
     engine_starts = models.BooleanField(choices=YES_NO_CHOICES, default=True)
+    auction_datetime = models.DateTimeField(null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse("cars:car_detail", kwargs={"slug": self.slug})
