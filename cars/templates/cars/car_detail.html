@@ -49,9 +49,10 @@
           <div><span class="font-semibold">Engine Starts:</span> {{ car.engine_starts|yesno:"Yes,No" }}</div>
           <div><span class="font-semibold">Color:</span> {{ car.color.name }}</div>
         </div>
+        
 
         <div class="text-sm text-gray-500 pt-2 border-t mt-4">
-          Posted by <strong>{{ car.seller.user.username }}</strong>
+          Posted by <strong>{{ car.seller.user.username }} -----  {{ user.profile.role.name }}</strong>
         </div>
       </div>
     </div>
