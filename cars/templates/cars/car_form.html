@@ -66,6 +66,28 @@
       {% endif %}
     </div>
 
+    <!-- Weight -->
+    <div>
+      <label for="{{ form.weight.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.weight.label }}
+      </label>
+      {{ form.weight|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.weight.errors %}
+        <p class="text-sm text-red-600">{{ form.weight.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+        <!-- location -->
+    <div>
+      <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ form.location.label }}
+      </label>
+      {{ form.location|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm" }}
+      {% if form.location.errors %}
+        <p class="text-sm text-red-600">{{ form.location.errors.0 }}</p>
+      {% endif %}
+    </div>
+
     <!-- Car Type -->
     <div>
       <label for="{{ form.car_type.id_for_label }}" class="block text-sm font-medium text-gray-700">
