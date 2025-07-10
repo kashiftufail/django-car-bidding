@@ -36,7 +36,7 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = ["make", "variant", "title", "detail", "uploaded_images","manufacture_year", "odometer",
-                  "car_type", "fuel_type", "has_keys", "engine_starts", "color"]
+                  "car_type", "fuel_type", "has_keys", "engine_starts", "color", "weight", "location"]
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user

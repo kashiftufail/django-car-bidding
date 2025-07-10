@@ -51,6 +51,8 @@ class Car(models.Model):
 
     manufacture_year = models.PositiveIntegerField(default=1970, help_text="Enter the year of manufacture")
     odometer = models.PositiveIntegerField(help_text="Enter mileage in kilometers or miles", default=0)
+    weight = models.PositiveIntegerField(help_text="Enter weight in kg", default=100)
+    location = models.CharField(help_text="Enter location", max_length=100, default="Lahore, PK")
     car_type = models.CharField(max_length=20, choices=CAR_TYPE_CHOICES, default='non_accident')
     fuel_type = models.CharField(max_length=10, choices=FUEL_TYPE_CHOICES, default='gas')
     has_keys = models.BooleanField(choices=YES_NO_CHOICES, default=True)

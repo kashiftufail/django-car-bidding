@@ -2,56 +2,87 @@
 {% load static %}
 
 {% block head %}
-  <!-- Fancybox CSS (loaded only for this page) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.css" />
 {% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="max-w-7xl mx-auto px-6 py-8 space-y-8">
 
-  <!-- Gallery -->
-  <div class="md:col-span-8">
-    {% if car.images.all %}
-      <!-- Main Image -->
-      <div class="mb-6">
+  <!-- Gallery + Car Info -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Gallery -->
+    <div class="lg:col-span-7 space-y-4">
+      {% if car.images.all %}
         <a data-fancybox="gallery" href="{{ car.images.first.file.url }}">
           <img src="{{ car.images.first.file.url }}"
-               class="w-full h-[400px] object-cover rounded-lg shadow"
+               class="w-full h-[450px] object-cover rounded-xl shadow-lg"
                alt="{{ car.title }}">
         </a>
-      </div>
-
-      <!-- Thumbnails -->
-      <div class="flex gap-2 overflow-x-auto">
-        {% for image in car.images.all %}
+        <div class="flex gap-2 overflow-x-auto">
+          {% for image in car.images.all %}
           <a data-fancybox="gallery" href="{{ image.file.url }}">
             <img src="{{ image.file.url }}"
                  class="h-20 w-32 object-cover rounded border hover:opacity-80 transition"
-                 alt="Car image {{ forloop.counter }}">
+                 alt="Image {{ forloop.counter }}">
           </a>
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="h-64 bg-gray-200 rounded flex items-center justify-center text-gray-500">
-        No images available.
-      </div>
-    {% endif %}
-  </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="h-[450px] bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
+          No images available
+        </div>
+      {% endif %}
+    </div>
 
-  <!-- Car Info -->
-  <div class="md:col-span-4">
-    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ car.title }}</h1>
-    <p class="text-gray-600 mb-6 whitespace-pre-line">{{ car.detail }}</p>
+    <!-- Car Info -->
+    <div class="lg:col-span-5">
+      <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
+        <h1 class="text-3xl font-bold text-gray-900">{{ car.title }}</h1>
+        <div class="text-gray-800 space-y-1 text-sm leading-relaxed">
+          <div><span class="font-semibold">Make:</span> {{ car.variant.make.name }}</div>
+          <div><span class="font-semibold">Variant:</span> {{ car.variant.name }}</div>
+          <div><span class="font-semibold">Year:</span> {{ car.manufacture_year }}</div>
+          <div><span class="font-semibold">Mileage:</span> {{ car.odometer }} km</div>
+          <div><span class="font-semibold">Car Type:</span> {{ car.get_car_type_display }}</div>
+          <div><span class="font-semibold">Fuel Type:</span> {{ car.get_fuel_type_display }}</div>
+          <div><span class="font-semibold">Has Keys:</span> {{ car.has_keys|yesno:"Yes,No" }}</div>
+          <div><span class="font-semibold">Engine Starts:</span> {{ car.engine_starts|yesno:"Yes,No" }}</div>
+          <div><span class="font-semibold">Color:</span> {{ car.color.name }}</div>
+        </div>
 
-    <div class="mt-4 text-sm text-gray-500">
-      Posted by: <strong>{{ car.seller.user.username }}</strong>
+        <div class="text-sm text-gray-500 pt-2 border-t mt-4">
+          Posted by <strong>{{ car.seller.user.username }}</strong>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Description Card -->
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-2">📝 Car Description</h2>
+    <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ car.detail }}</p>
+  </div>
+
+  <!-- Shipping Card -->
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">📦 Shipping Information</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+      <div>
+        <p><span class="font-semibold">Origin Location:</span> {{ car.location }}</p>
+        <p><span class="font-semibold">Shipping Available:</span> Yes</p>
+      </div>
+      <div>
+        <p><span class="font-semibold">Pickup Radius:</span> 100 km</p>
+        <p><span class="font-semibold">Estimate Weight:</span> {{ car.weight }} kg</p>
+      </div>
+    </div>
+    <p class="mt-4 text-gray-600">Note: Buyer arranges transport and handling. For international shipping, contact our logistics team.</p>
+  </div>
+
 </div>
 {% endblock %}
 
 {% block scripts %}
-  <!-- Fancybox JS + Init -->
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
-  <script src="{% static 'js/fancybox-init.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
+<script src="{% static 'js/fancybox-init.js' %}"></script>
 {% endblock %}
