@@ -48,8 +48,19 @@ class CarDetailView(DetailView):  # public
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user  # ✅ add user to context
-        context['user_profile'] = getattr(self.request.user, 'profile', None)  # optional if needed
+        user = self.request.user
+        car = self.get_object()
+
+        context['user'] = user
+        context['user_profile'] = getattr(user, 'profile', None)
+        context['show_bid_button'] = user.is_authenticated and hasattr(user, 'profile') and user.profile.role.name == 'bidder'
+
+        # Load user's existing bid for this car
+        bid = None
+        if context['show_bid_button']:
+            bid = car.bids.filter(user=user).first()
+        context['has_bid'] = bid is not None
+        context['existing_bid'] = bid
         return context
 
 class CarUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
