@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "make",
     'variant',
     'color',
+    'bidding',
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",
