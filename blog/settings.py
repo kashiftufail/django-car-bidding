@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'cars',
     "make",
     'variant',
+    'color',
     # Required by allauth
     'django.contrib.sites',
     "django_extensions",

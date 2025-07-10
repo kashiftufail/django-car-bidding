@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.urls import reverse
 from images.models import Image
+from color.models import Color
 from accounts.models import UserProfile
 
 CAR_TYPE_CHOICES = [
@@ -45,6 +46,8 @@ class Car(models.Model):
     slug = AutoSlugField(populate_from="title", unique=True)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="cars")
     variant = models.ForeignKey("variant.Variant", on_delete=models.CASCADE, related_name="cars")
+    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True, related_name="cars", default=1)
+
 
     manufacture_year = models.PositiveIntegerField(default=1970, help_text="Enter the year of manufacture")
     odometer = models.PositiveIntegerField(help_text="Enter mileage in kilometers or miles", default=0)
