@@ -30,6 +30,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # <-- Allauth
     path("accounts/", include("accounts.urls")),
     path("variants/", include("variant.urls")),
+    path("bidding/", include("bidding.urls")),
+
 
 
 ]

@@ -34,10 +34,33 @@
       {% endif %}
     </div>
 
+
+      
+
+
     <!-- Car Info -->
     <div class="lg:col-span-5">
       <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
+        
         <h1 class="text-3xl font-bold text-gray-900">{{ car.title }}</h1>
+
+        {% if show_bid_button %}
+          <div class="mt-4">
+            {% if has_bid %}
+              <button id="bidButton1" class="bidButton bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded shadow">
+                Update Your Bid
+              </button>
+            {% else %}
+              <button id="bidButton2" class="bidButton bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow">
+                Place a Bid
+              </button>
+            {% endif %}
+          </div>
+        {% endif %}
+
+
+
+
         <div class="text-gray-800 space-y-1 text-sm leading-relaxed">
           <div><span class="font-semibold">Make:</span> {{ car.variant.make.name }}</div>
           <div><span class="font-semibold">Variant:</span> {{ car.variant.name }}</div>
@@ -81,9 +104,52 @@
   </div>
 
 </div>
+
+
+  <div id="bidModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative z-60">
+    <h2 class="text-xl font-bold mb-4">Place/Update Your Bid</h2>
+    <form method="post" action="{% url 'bidding:place_or_update_bid' car.pk %}">
+      {% csrf_token %}
+      <input type="number" name="price" step="0.01"
+             value="{{ existing_bid.price|default:'' }}"
+             required class="w-full border px-3 py-2 mb-3 rounded" placeholder="Bid Amount">
+
+      <textarea name="message" rows="3"
+                class="w-full border px-3 py-2 mb-3 rounded"
+                placeholder="Optional message...">{{ existing_bid.message|default:'' }}</textarea>
+
+      <div class="flex justify-between">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+        <button type="button" onclick="document.getElementById('bidModal').classList.add('hidden')" class="text-gray-500">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 {% endblock %}
+
+
+
+
+
 
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
 <script src="{% static 'js/fancybox-init.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".bidButton");
+    const modal = document.getElementById("bidModal");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+      });
+    });
+  });
+</script>
+
 {% endblock %}
+
+
