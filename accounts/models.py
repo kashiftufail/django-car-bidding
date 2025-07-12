@@ -41,6 +41,14 @@ class UserProfile(models.Model):
     city  = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=100, blank=True)
     zip   = models.CharField(max_length=20, blank=True)
+
+    @property
+    def is_bidder(self):
+        return self.role and self.role.name.lower() == 'bidder'
+
+    @property
+    def is_seller(self):
+        return self.role and self.role.name.lower() == 'seller'
     
     def clean(self):
         """

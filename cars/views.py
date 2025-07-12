@@ -50,9 +50,13 @@ class CarDetailView(DetailView):  # public
         context = super().get_context_data(**kwargs)
         user = self.request.user
         car = self.get_object()
-
+        # breakpoint()
         context['user'] = user
-        context['user_profile'] = getattr(user, 'profile', None)
+        profile = getattr(user, 'profile', None)
+        context['user_profile'] = profile 
+        
+        is_bidder = user.is_authenticated and getattr(profile, 'is_bidder', False)
+        is_seller = user.is_authenticated and getattr(profile, 'is_seller', False)
         context['show_bid_button'] = user.is_authenticated and hasattr(user, 'profile') and user.profile.role.name == 'bidder'
 
         # Load user's existing bid for this car
