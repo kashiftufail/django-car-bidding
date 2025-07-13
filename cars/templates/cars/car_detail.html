@@ -44,7 +44,7 @@
         
         <h1 class="text-3xl font-bold text-gray-900">{{ car.title }}</h1>
 
-        {% if show_bid_button %}
+        {% if show_bid_button and perms.cars.place_bid %}
           <div class="mt-4">
             {% if has_bid %}
               <button id="bidButton1" class="bidButton bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded shadow">
