@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "images",
     'accounts',
     'roles',
-    'cars',
+    'cars.apps.CarsConfig',
     "make",
     'variant',
     'color',
@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     "django_extensions",
     'widget_tweaks',
+    'rules',
+    # 'accounts.apps.AccountsConfig',
     # "debug_toolbar",
     # Allauth apps
     'allauth',
@@ -76,8 +78,10 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # default
+   
     'allauth.account.auth_backends.AuthenticationBackend',
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Redirect URLs

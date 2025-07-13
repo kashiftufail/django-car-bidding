@@ -1,3 +1,6 @@
+
+  {% load rules %}
+
 <header class="bg-gray-800 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center text-gray-300">
     <!-- Brand Logo -->
@@ -8,7 +11,8 @@
     <!-- Center Nav Links -->
     <nav class="space-x-6 text-lg hidden md:flex">
       <a href="{% url 'cars:car_list' %}" class="hover:text-white">Home</a>
-      <a href="{% url 'cars:car_create' %}" class="hover:text-white">New Car</a>
+      <a href="{% url 'cars:car_list' %}" class="hover:text-white">Cars</a>
+      <a href="{% url 'post_list' %}" class="hover:text-white">Posts</a>
       <a href="{% url 'profile_edit' %}" class="hover:text-white">Edit Profile</a>
     </nav>
 
@@ -19,7 +23,11 @@
           Welcome, {{ user.username }} ▼
         </button>
         <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg text-gray-700 z-10">
-          <a href="{% url 'profile_edit' %}" class="block px-4 py-2 hover:bg-gray-100">Edit Profile</a>
+          
+
+
+            <a href="{% url 'profile_edit' %}" class="block px-4 py-2 hover:bg-gray-100">Edit Profile</a>
+          
           <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Logout</a>
         </div>
       {% else %}
