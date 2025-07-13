@@ -1,7 +1,7 @@
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from .models import Car
 from .forms import CarForm
 from django.contrib import messages
@@ -37,6 +37,11 @@ class CarCreateView(LoginRequiredMixin, CreateView):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         return kwargs
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('cars.add_car'):
+            return redirect('cars:car_list')  # Or: raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
 
 class CarDetailView(DetailView):  # public
     model = Car
@@ -55,9 +60,9 @@ class CarDetailView(DetailView):  # public
         profile = getattr(user, 'profile', None)
         context['user_profile'] = profile 
         
-        is_bidder = user.is_authenticated and getattr(profile, 'is_bidder', False)
-        is_seller = user.is_authenticated and getattr(profile, 'is_seller', False)
-        context['show_bid_button'] = user.is_authenticated and hasattr(user, 'profile') and user.profile.role.name == 'bidder'
+        # is_bidder = user.is_authenticated and getattr(profile, 'is_bidder', False)
+        # is_seller = user.is_authenticated and getattr(profile, 'is_seller', False)
+        context['show_bid_button'] = user.is_authenticated and hasattr(user, 'profile') and user.profile.is_bidder
 
         # Load user's existing bid for this car
         bid = None

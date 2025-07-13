@@ -4,11 +4,12 @@
 {% block content %}
 <div class="flex justify-between items-center mb-6">
   <h1 class="text-2xl font-bold text-gray-800">Cars</h1>
-  {% if user.is_authenticated %}
+  {% if user.is_authenticated and perms.cars.add_car %}
     <a href="{% url 'cars:car_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
       + Add New Car
     </a>
   {% endif %}
+
 </div>
 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
   {% for car in cars %}
