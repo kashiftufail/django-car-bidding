@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.urls import reverse
 from images.models import Image
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def validate_title_length(value):
@@ -24,6 +26,9 @@ class Post(models.Model):
             "blank": "Title cannot be blank.",
         }
     )
+        
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts",default=1)
+
     body = models.TextField()
     slug = AutoSlugField(populate_from="title", unique=True)
     
