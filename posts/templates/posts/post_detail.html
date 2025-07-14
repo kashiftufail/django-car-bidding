@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ object.title }} – MyBid{% endblock %}
 {% block content %}
+{% load rules %}
+
 <article class="prose lg:prose-xl">
   <h1>{{ object.title }}</h1>
   <p>{{ object.body|linebreaks }}</p>
@@ -15,9 +17,12 @@
 </div>
 
 <div class="mt-8 space-x-4 text-sm">
-  <a href="{{ post.get_absolute_url }}" class="text-indigo-600 hover:underline">Edit</a>
-
-  <a href="{% url 'post_delete' object.slug %}" class="text-red-600 hover:underline">Delete</a>
+ 
+  
+  <a href="{% url 'post_update' post.slug %}" class="text-indigo-600 hover:underline">Edit</a>
+  
+    <a href="{% url 'post_delete' object.slug %}" class="text-red-600 hover:underline">Delete</a>
+  
   <a href="{% url 'post_list' %}" class="hover:underline">Back</a>
 </div>
 {% endblock %}

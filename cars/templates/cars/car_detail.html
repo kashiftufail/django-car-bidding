@@ -106,26 +106,29 @@
 </div>
 
 
+{% if show_bid_button and perms.cars.place_bid %}
+
   <div id="bidModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative z-60">
-    <h2 class="text-xl font-bold mb-4">Place/Update Your Bid</h2>
-    <form method="post" action="{% url 'bidding:place_or_update_bid' car.pk %}">
-      {% csrf_token %}
-      <input type="number" name="price" step="0.01"
-             value="{{ existing_bid.price|default:'' }}"
-             required class="w-full border px-3 py-2 mb-3 rounded" placeholder="Bid Amount">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative z-60">
+      <h2 class="text-xl font-bold mb-4">Place/Update Your Bid</h2>
+      <form method="post" action="{% url 'bidding:place_or_update_bid' car.pk %}">
+        {% csrf_token %}
+        <input type="number" name="price" step="0.01"
+              value="{{ existing_bid.price|default:'' }}"
+              required class="w-full border px-3 py-2 mb-3 rounded" placeholder="Bid Amount">
 
-      <textarea name="message" rows="3"
-                class="w-full border px-3 py-2 mb-3 rounded"
-                placeholder="Optional message...">{{ existing_bid.message|default:'' }}</textarea>
+        <textarea name="message" rows="3"
+                  class="w-full border px-3 py-2 mb-3 rounded"
+                  placeholder="Optional message...">{{ existing_bid.message|default:'' }}</textarea>
 
-      <div class="flex justify-between">
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
-        <button type="button" onclick="document.getElementById('bidModal').classList.add('hidden')" class="text-gray-500">Cancel</button>
-      </div>
-    </form>
+        <div class="flex justify-between">
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+          <button type="button" onclick="document.getElementById('bidModal').classList.add('hidden')" class="text-gray-500">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
+{% endif %}
 
 {% endblock %}
 

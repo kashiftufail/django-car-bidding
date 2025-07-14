@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -11,6 +12,7 @@ class PostList(ListView):
     model = Post
     context_object_name = "posts"
     login_url = "/accounts/login/"
+
 
 class PostDetail(DetailView):
     model = Post
@@ -31,7 +33,7 @@ class PostDetail(DetailView):
 class PostCreate(LoginRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
-    template_name = "posts/post_form.html"
+    template_name = "posts/post_create.html"
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -54,6 +56,16 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
     form_class   = PostForm
     slug_field   = "slug"
     slug_url_kwarg = "slug"
+    template_name = "posts/post_update.html"
+
+
+    def dispatch(self, request, *args, **kwargs):
+        post = self.get_object()
+
+        if request.user != post.user:
+            messages.error(request, "You are not allowed to edit this post.")
+            return redirect('post_list')
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -71,3 +83,11 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
     success_url = reverse_lazy("post_list")
+
+    def dispatch(self, request, *args, **kwargs):
+        post = self.get_object()
+
+        if request.user != post.user:
+            messages.error(request, "You are not allowed to edit this post.")
+            return redirect('post_list')
+        return super().dispatch(request, *args, **kwargs)
